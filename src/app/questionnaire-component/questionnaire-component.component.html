@@ -1,0 +1,25 @@
+<form [formGroup]="fg">
+
+    Name: <input formControlName="name"  placeholder="Enter Name">
+    Age: <input formControlName="age"  placeholder="Enter Age">
+    City: <input formControlName="city"  placeholder="Enter City">
+    Country: <input formControlName="country" placeholder="Enter Country">
+
+    <div *ngFor="i1 of item">
+
+        <div *ngIf="i1.type == 'boolean'">
+            <input type="checkbox" [formControlName]="i1.linkId">
+        </div>
+        <div *ngIf="i1.type == 'string'">
+            <input type="text" [formControlName]="i1.linkId">
+        </div>
+        <div *ngIf="i1.type == 'group'">
+            <label for="cars">{{i1.text}}</label>
+            <select name="cars" id="cars">
+                <option *ngFor="let option of i1.item" [value]="option.text">{{option.text}}</option>
+            </select>
+        </div>
+
+    </div>
+
+</form>

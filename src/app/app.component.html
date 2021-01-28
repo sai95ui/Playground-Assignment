@@ -1,0 +1,101 @@
+<!-- allPatients = {{ allPatients && allPatients[0].resource | json}} -->
+
+<div class="form-inline search-bar container">
+    <div class="form-group">
+        <label >Search:</label>
+        <input type="text" class="form-control" [(ngModel)]="searchParams.name" placeholder="first or last name">
+      </div>
+      <div class="form-group">
+        <label >Birth Date:</label>
+        <input type="text" class="form-control" [(ngModel)]="searchParams.birthDate" placeholder="YYYY-MM-DD">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-success" (click)="search()">Submit</button>
+        <button type="submit" class="btn btn-default" (click)="resetSearch()">Reset</button>
+      </div>
+  
+</div>
+
+<div *ngFor="let err of errorsToShow">
+    <p class="alert alert-danger"> {{ err.message }}</p>
+</div>
+
+
+<div>
+    <h2 *ngIf="loading">Loading...</h2>
+</div>
+<div  class="container">
+<table class="table" border="1" *ngIf="!loading">
+<thead>
+    <th>Index</th>
+    <th>Resource Type</th>
+    <th>Name</th>
+    <th>Contact Info</th>
+    <th>Birth Date</th>
+    <th>Address</th>
+    <th>Marital Status</th>
+    <th>Communication Languages</th>
+</thead>
+    <tr *ngFor="let patient of allPatients; let ndx=index;" >
+
+        <td>
+            <!-- Index -->
+            {{ndx+1}}
+        </td>
+        <td>
+            <!-- Resource Type -->
+            {{patient?.resource?.resourceType}}
+        </td>
+        <td>
+            <!-- Name -->
+            <div *ngFor="let name of patient.resource.name">
+                {{name.prefix && name.prefix[0]}}
+                {{name.given && name.given[0]}}
+            </div>
+        </td>
+        <td>
+            <!-- Telecom -->
+            <div *ngIf="patient?.resource?.telecom && patient?.resource?.telecom.length">
+                <div *ngFor="let telNum of patient?.resource?.telecom">
+                    ({{telNum?.system}}) {{telNum?.value}}
+                </div>
+            </div>
+        </td>
+        <td>
+            <!-- Birth Date -->
+            {{patient?.resource?.birthDate}}
+        </td>
+        <td>
+            <!-- Address -->
+            <div *ngIf="patient?.resource?.address && patient?.resource?.address.length">
+                <div *ngFor="let addr of patient?.resource?.address">
+                    {{addr.line && addr.line.join(', ')}}
+                    {{addr.city && ','+addr.city}}
+                    {{addr.state && ','+addr.state}}
+                    {{addr.postalCode && ','+addr.postalCode}}
+                    {{addr.country && ','+addr.country}}
+                </div>   
+            </div>
+        </td>
+        <td>
+            <!-- Marital Status -->
+            {{patient?.resource?.maritalStatus?.text}}
+            
+        </td>
+        <td>
+            <!-- Communication Languages -->
+            <div *ngIf="patient?.resource?.communication && patient?.resource?.communication.length">
+                <div *ngFor="let comm of patient.resource.communication">
+                    {{ (comm.language.text || comm.language.id) + ' '}} 
+                </div>
+            </div>
+        </td>
+
+    </tr>
+
+</table>
+</div>
+ 
+<p>
+    Time taken by API is {{ timeTakenByApi | number: '1.2-2' }} sec
+</p>
