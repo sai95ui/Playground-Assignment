@@ -5,7 +5,7 @@
     City: <input formControlName="city"  placeholder="Enter City">
     Country: <input formControlName="country" placeholder="Enter Country">
 
-    <div *ngFor="i1 of item">
+    <div *ngFor="let i1 of item">
 
         <div *ngIf="i1.type == 'boolean'">
             <input type="checkbox" [formControlName]="i1.linkId">

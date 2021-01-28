@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, SearchParams } from '../app/services/api-service.service';
+import {QuestionnaireComponentComponent} from './questionnaire-component/questionnaire-component.component';
 
 @Component({
   selector: 'app-root',
